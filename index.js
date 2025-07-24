@@ -32,9 +32,11 @@ app.get('/', (req, res) => {
   res.json({ message: 'API funcionando correctamente' });
 });
 
-app.post("/api/upload", async (req, res) => {
+app.post("/", async (req, res) => {
   try {
     console.log('📸 Recibiendo imagen...');
+    // Log de la URL de la API
+    console.log('📍 Ruta:', req.path);
     
     if (!req.body.image) {
       return res.status(400).json({ success: false, error: 'No se recibió imagen' });
@@ -46,8 +48,9 @@ app.post("/api/upload", async (req, res) => {
 
     fs.writeFileSync(filePath, base64Data, "base64");
     console.log('💾 Archivo temporal creado');
+    console.log('FOTO:', base64Data.length);
 
-    const fileId = await uploadToDrive(filePath, fileName, process.env.DRIVE_FOLDER_ID);
+    const fileId = await uploadToDrive(filePath, fileName, process.env.GOOGLE_SERVICE_ACCOUNT);
     fs.unlinkSync(filePath); // borrar archivo temporal
     
     console.log('✅ Subida exitosa:', fileId);
