@@ -23,7 +23,7 @@
         // "no-unused-vars": "error",
         "node/no-unpublished-require": "error",
         "node/no-missing-require": "error",
-        "node/no-unsupported-features/es-syntax": "off",
+        "node/no-unsupported-features/es-syntax": "off"
         // "security/detect-sql-injection": "error",
         // "security/detect-non-literal-fs-filename": "warn"
     }
