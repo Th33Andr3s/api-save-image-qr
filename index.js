@@ -32,14 +32,15 @@ app.get('/', (req, res) => {
   res.json({ message: 'API funcionando correctamente' });
 });
 
-app.post("api/upload", async (req, res) => {
-  console.log('📸 api');
+// ✅ RUTA CORREGIDA - agregado el "/" al inicio
+app.post("/api/upload", async (req, res) => {
   try {
     console.log('📸 Recibiendo imagen...');
-    // Log de la URL de la API
     console.log('📍 Ruta:', req.path);
+    console.log('🔧 Método:', req.method);
     
     if (!req.body.image) {
+      console.log('❌ No se recibió imagen en el body');
       return res.status(400).json({ success: false, error: 'No se recibió imagen' });
     }
 
@@ -47,22 +48,32 @@ app.post("api/upload", async (req, res) => {
     const fileName = `foto_${Date.now()}.jpg`;
     const filePath = path.join(__dirname, fileName);
 
-    fs.writeFileSync(filePath, base64Data, "base64");
-    console.log('💾 Archivo temporal creado');
-    console.log('FOTO:', base64Data.length);
+    console.log('📄 Nombre del archivo:', fileName);
+    console.log('📁 Ruta del archivo:', filePath);
+    console.log('📊 Tamaño base64:', base64Data.length);
 
-    const fileId = await uploadToDrive(filePath, fileName, process.env.GOOGLE_SERVICE_ACCOUNT);
-    fs.unlinkSync(filePath); // borrar archivo temporal
+    fs.writeFileSync(filePath, base64Data, "base64");
+    console.log('💾 Archivo temporal creado exitosamente');
+
+    // ✅ PARÁMETRO CORREGIDO - usar DRIVE_FOLDER_ID, no GOOGLE_SERVICE_ACCOUNT
+    const fileId = await uploadToDrive(filePath, fileName, process.env.DRIVE_FOLDER_ID);
     
-    console.log('✅ Subida exitosa:', fileId);
+    fs.unlinkSync(filePath); // borrar archivo temporal
+    console.log('🗑️ Archivo temporal eliminado');
+    
+    console.log('✅ Subida exitosa, ID:', fileId);
     res.json({ success: true, fileId });
   } catch (err) {
     console.error("❌ Error al subir:", err);
+    console.error("📋 Stack trace:", err.stack);
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {  // Importante: '0.0.0.0'
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
+  console.log(`🌐 Variables de entorno:`);
+  console.log(`   - DRIVE_FOLDER_ID: ${process.env.DRIVE_FOLDER_ID ? 'Configurado' : 'NO configurado'}`);
+  console.log(`   - GOOGLE_SERVICE_ACCOUNT: ${process.env.GOOGLE_SERVICE_ACCOUNT ? 'Configurado' : 'NO configurado'}`);
 });
