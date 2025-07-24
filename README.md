@@ -19,6 +19,8 @@ DRIVE_FOLDER_ID=ID de la carpeta en la que se van a guardar las imágenes
 GOOGLE_SERVICE_ACCOUNT=Json de la cuenta de servicio de Google
 ```
 
+4. Congifurar puerto y URL de la API de manera publica en railway.com.
+
 4. Ejecutar `npm install` para instalar las dependencias.
 
 ## Ejecución
