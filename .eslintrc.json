@@ -1,0 +1,30 @@
+{
+    "env": {
+        "node": true,
+        "es2021": true,
+        "jest": true
+    },
+    "extends": [        
+        "eslint:recommended",
+        "standard"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "node",
+        "security"
+    ],
+    "rules": {
+        "indent": ["error", 4],
+        "quotes": ["error", "single"],
+        // "no-console": "warn",
+        // "no-unused-vars": "error",
+        "node/no-unpublished-require": "error",
+        "node/no-missing-require": "error",
+        "node/no-unsupported-features/es-syntax": "off",
+        // "security/detect-sql-injection": "error",
+        // "security/detect-non-literal-fs-filename": "warn"
+    }
+}
