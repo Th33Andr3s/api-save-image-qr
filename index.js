@@ -32,7 +32,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'API funcionando correctamente' });
 });
 
-app.post("/api/upload", async (req, res) => {
+app.post("api/upload", async (req, res) => {
+  console.log('📸 api');
   try {
     console.log('📸 Recibiendo imagen...');
     // Log de la URL de la API
